@@ -1,0 +1,255 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/web-animations-js/web-animations-next-lite.min.js">
+
+<link rel="import" href="category-screen.html">
+<link rel="import" href="shopping-list-screen.html">
+
+
+</head><body><dom-module id="show-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+	  
+	  #head {
+		display: block;
+        background-color: rgba(250, 112, 62, 1);
+		height:45px;
+		weight: 100px;
+		text-align:center;
+		line-height: 90px;
+		color:white;
+		padding-bottom:20px;
+		border-top: solid 1px black;
+      }
+	  
+	  #tab {
+		display: block;
+        background-color: rgba(205, 255, 173, 1);
+		height:30px;
+		padding-bottom:20px;
+		margin-bottom:20px;
+      }
+	  
+	  
+	  
+	  #inp{
+		display: block;
+        <!--background-color: rgba(205, 255, 173, 1);-->
+		background-color:white;
+		height:200px;
+		width: 200px;
+		text-align:center;
+		color:black;
+		padding:10px;
+		margin: 0 auto;
+	  }
+	  
+	  .block1 { 
+		width: 800px; 
+		height: 100px;
+		background: rgba(205, 255, 173, 1);
+		padding: 5px;
+		padding-right: 20px; 
+		padding-bottom: 30px;
+		border: solid 1px black; 
+		float: left;
+	   }
+	   
+	   .blockHelp { 
+		background: rgba(250, 112, 62, 1);
+
+	   }
+	   
+	   #fab { 
+		bottom: 50px;
+		right:50 px;
+		position: relative;
+		 background-color:rgba(230, 0, 38, 1);
+	   }
+	   
+	   .cont { 
+		width:100%;
+		height:80%;
+		 
+	   }
+	   
+	   .prokrutka {
+		height:150px; /* высота нашего блока */
+		background: #fff; /* цвет фона, белый */
+		border: 1px solid #C1C1C1; /* размер и цвет границы блока */
+		overflow-y: auto; /* прокрутка по вертикали */
+		}
+		
+		paper-toolbar.red {
+		--paper-toolbar-background: rgba(230, 0, 38, 1);
+		--paper-toolbar-title: {
+		  font-weight: bold;
+		};
+	  }
+		
+		paper-tabs[no-bar] paper-tab.iron-selected {
+		--paper-tabs-selection-bar-color: rgba(230, 0, 38, 1);
+			color: rgba(230, 0, 38, 1);
+		  }
+		  
+		  
+		  
+		  #launch {
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  background: white;
+		  line-height: 600px;
+		}
+		
+		
+		#body{
+			display:none;
+		}
+	  
+    </style>
+	
+	<div align="center" id="launch" onclick="hide(this)">
+		<img src="icon150.png" alt="изображение" style="vertical-align: middle;">
+	</div>
+
+
+	<div id="body">
+	
+	<app-location route="{{route}}"></app-location>
+    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+	
+	<paper-toolbar class="red">
+            <div class="title"> Мои покупки </div>
+    </paper-toolbar>
+
+	
+	<!--iron-selector selected="[[show.subroute]]" attr-for-selected="name" selected-class="active">
+          <template is="dom-repeat" items="[[shows]]" as="show">
+            <li name="[[show.subroute]]"><a href="/shows/ShoppingList/[[show.subroute]]">[[show.name]]</a></li>
+          </template>
+        </iron-selector-->
+	
+	<!--div id="tab">
+		<paper-button  on-tap=""	style='width:49.5%; margin:0px; '>Покупки</paper-button>
+		<paper-button  on-tap=""	style='width:49.5%;margin:0px; '>Категории</paper-button>
+	</div-->
+	
+	<paper-tabs no-bar="" selected="0" style="border-bottom: solid 2px rgba(230, 0, 38, 1);; ">
+	  <paper-tab id="tab1" on-tap="clickTab1">Покупки</paper-tab>
+	  <paper-tab id="tab2" on-tap="clickTab2">Категории</paper-tab>
+	</paper-tabs>
+	
+	<!--div class="prokrutka"-->
+	<div>
+	<iron-pages id="pages" class="blockHelp" role="main" selected="[[prop1]]" selected-attribute="active" attr-for-selected="name" fallback-selection="shopping-list">
+      <category-screen id="category" name="category" subroute="[[subroute]]"></category-screen>
+      <shopping-list-screen id="shopping" name="shopping-list" subroute="[[subroute]]"></shopping-list-screen>
+    </iron-pages>
+	</div>
+	
+	
+	<!--paper-input id="variable" label="variable"></paper-input-->
+	
+
+	  <!--------------------------------------
+	  end-->
+
+
+	</div>
+    
+  </template>
+
+  <script>  
+  
+  
+    Polymer({
+
+      is: 'show-app',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'shopping-list',
+        },
+		
+		shows: {
+          type: Array,
+          value: function() {
+             return [
+               { name: 'Покупки', subroute: 'pok', q: '' },
+               { name: 'Категории', subroute: 'cat', q: 'polycasts' },
+             ];
+          }
+        },
+	
+
+      },
+	  
+	  ready: function() {
+			this.$.shopping.updateRecords();
+		},
+	  
+	  clickTab1: function() {
+		 console.log("t1");
+		 this.prop1 = "shopping-list";
+		 //this.$.shopping.updateRecords();
+		 //console.log("listItems length: "+document.getElementById("category").listItems.length);
+		 //document.getElementById("shopping").listItems.splice(0,document.getElementById("shopping").listItems.length);
+		 document.getElementById("shopping").updateAfterClick(document.getElementById("category").listItems);
+		},
+		
+		clickTab2: function() {
+		 console.log("t2");
+		 this.prop1 = "category";
+		 this.$.category.updateRecords();
+		 //console.log(document.getElementById("category").listItems[0]);
+		},
+	  
+	  });
+	  
+	  function hide(el) {
+			el.style.display = 'none';
+			//this.$.body.style.display = 'block';
+			document.getElementById("body").style.display = 'block';
+			//this.$.body.style.height = "100%";
+			
+			//this.prop1 = "category";
+			document.getElementById("category").updateRecords();
+			console.log("listItems length: "+document.getElementById("category").listItems.length);
+			document.getElementById("shopping").updateAfterClick(document.getElementById("category").listItems);
+			document.getElementById("shopping").updateRecords();
+			//document.getElementById("shopping").updateRecords();
+		};
+	  
+	  /*var t= function() {
+			this.$.body.style.height = '0px';
+
+		};*/
+
+	
+  </script>
+</dom-module>
+</body></html>

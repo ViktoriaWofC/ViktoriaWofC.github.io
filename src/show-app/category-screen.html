@@ -1,0 +1,535 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+
+</head><body><dom-module id="category-screen">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+	  
+	  #head {
+		display: block;
+        background-color: rgba(205, 255, 173, 1);
+		height:30px;
+		weight: 100px;
+		text-align:center;
+		line-height: 20px;
+		color:black;
+		padding-top:10px;
+		margin-bottom:2px;
+      }
+	  
+	  #inp{
+		display: block;
+        <!--background-color: rgba(205, 255, 173, 1);-->
+		background-color:white;
+		height:200px;
+		width: 200px;
+		text-align:center;
+		color:black;
+		padding:10px;
+		margin: 0 auto;
+	  }
+	  
+	  .block1 { 
+		width: 800px; 
+		height: 100px;
+		background: rgba(205, 255, 173, 1);
+		padding: 5px;
+		padding-right: 20px; 
+		padding-bottom: 30px;
+		border: solid 1px black; 
+		float: left;
+	   }
+	   
+	   .blockHelp { 
+		background: rgba(205, 255, 173, 1);
+		border: solid 1px black; 
+	   }
+	   
+	   .prokrutka {
+		height:150px; /* высота нашего блока */
+		background: #fff; /* цвет фона, белый */
+		border: 1px solid #C1C1C1; /* размер и цвет границы блока */
+		overflow-x: scroll; /* прокрутка по горизонтали */
+		overflow-y: scroll; /* прокрутка по вертикали */
+		}
+		
+		#fab { 
+		bottom: 20px;
+		right:20 px;
+		position: relative;
+		 
+	   }
+	   
+	    paper-fab.red {
+			--paper-fab-background: rgba(65, 0, 0, 1);
+			--paper-fab-keyboard-focus-background: var(--paper-light-blue-900);
+		  }
+	  
+    </style>
+	
+	<app-location route="{{route}}"></app-location>
+    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+	
+	<!--div id="head">
+		Список категорий
+	</div-->	
+	
+	<!--div class="prokrutka"-->
+	<div>
+	  <div>
+            <!-- Create a list of tasks -->
+            <paper-listbox>
+                <template is="dom-repeat" items="{{ listItems }}">
+                    <!-- Create an individual task -->
+                    <paper-item>
+						<iron-icon icon="star"></iron-icon>
+                        <!--paper-checkbox checked='{{ item.isComplete }}'
+                            class='flex-11 taskBox' on-change='toggleRecord'-->
+							<div style="margin-left:10px ;margin-right:20px">
+                                {{ item.categoryName }}    
+							</div>
+                          
+						<paper-icon-button icon="create" class="flex-1" style="color: gray" on-click="showEditRecordDialog">
+                        </paper-icon-button>  						
+                        <paper-icon-button icon="delete" class="flex-1" style="color: gray" on-click="showDeleteRecordDialog">
+                        </paper-icon-button>                    
+                    </paper-item>
+                </template>
+            </paper-listbox>
+ 
+            <!-- Create a floating action button -->
+			
+			
+			<!--paper-button toggles raised class="green" on-tap="updateRecords">print DB</paper-button-->
+			
+	
+ 
+            <!-- Create a modal dialog -->
+            <paper-dialog id="addRecordDialog" modal="">
+				<h4>Добавить категорию</h4>
+                <paper-input label="Имя категории" value="{{ latestCategoryName }}">
+                </paper-input>
+                <div class="buttons">
+                    <paper-button dialog-dismiss="">Отмена</paper-button>
+                    <paper-button on-click="addRecord">Добавить</paper-button>
+                </div>
+            </paper-dialog>
+			
+			<paper-dialog id="editRecordDialog" modal="">
+				<h4>Редактировать категорию</h4>
+                <paper-input label="Имя категории" value="{{ editCategoryName }}">
+                </paper-input>
+                <div class="buttons">
+                    <paper-button dialog-dismiss="">Отмена</paper-button>
+                    <paper-button on-click="editRecord">Сохранить</paper-button>
+                </div>
+            </paper-dialog>
+			
+			<paper-dialog id="deleteRecordDialog" modal="">
+				<h4>Удалить категорию вместе с соответсвующими покупками?</h4>
+				<div style="text-indent:10px;">
+                Имя категории: {{ latestCategoryName }}
+				</div>
+                
+                <div class="buttons">
+                    <paper-button dialog-dismiss="">Отмена</paper-button>
+                    <paper-button on-click="deleteRecord">Да</paper-button>
+                </div>
+            </paper-dialog>
+			
+        </div>	
+		
+		
+	</div>	
+	
+	<div id="fab">
+            <paper-fab icon="add" class="red" style="position:fixed; bottom: 30px; right:24px" on-click="showAddRecordDialog">
+			</paper-fab>
+	</div>	
+
+
+	
+    
+  </template>
+
+  <script>  
+  
+  
+    Polymer({
+
+      is: 'category-screen',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'show-app',
+        },	
+		
+		listItems: {
+          type: Array,
+          value: [],
+        },		
+
+		  
+        },
+
+	  
+		ready: function() {
+			this.listItems = [];
+			this.latestCategoryName = "";
+			this.updateR();
+			//localStorage.clear();
+		},
+		
+		showAddRecordDialog: function() {
+		this.latestCategoryName = "";
+			this.$.addRecordDialog.open();
+		},
+		
+		showEditRecordDialog: function(e) {
+			this.$.editRecordDialog.open();
+			this.editCategoryName = e.model.item.categoryName;
+			this.latestCategoryName = e.model.item.categoryName;
+		},
+		
+		showDeleteRecordDialog: function(e) {
+			this.$.deleteRecordDialog.open();
+			this.latestCategoryName = e.model.item.categoryName;
+		},
+		
+		addRecord: function() {
+		//help.splice(0, help.length);
+			// Сохранение новой невыполненной задачи
+			//localStorage.setItem(this.latestCategoryName, 'no');
+			var db = openCategory.result;
+			var tx = db.transaction("MyObjectStore", "readwrite");
+
+			var store = tx.objectStore("MyObjectStore");
+
+			ind = ind +1;
+			console.log("ind: "+ind);
+			// Add some data
+			store.put({id: ind, categoryName: this.latestCategoryName,isComplete: false	});
+			help.push({id: ind, categoryName: this.latestCategoryName,isComplete: false});
+			//this.push('listItems', {id: ind, categoryName: this.latestCategoryName,isComplete: false});
+		 
+			// Сброс latestCategoryName
+			this.latestCategoryName="";
+		 
+			// Закрытие диалога
+			this.$.addRecordDialog.close();
+		 		 
+		 
+			// Обновление списка задач
+			this.updateRecords();
+			//this.updateR();
+		},
+		
+		toggleRecord: function(e) {
+			// Получение имени задачи
+			var categoryName = e.model.item.categoryName;
+		 
+			var compl;
+			
+			var inde = help.findIndex(function(o){
+				 return o.categoryName === categoryName;
+			})
+			//help.splice(index, 1);
+			/*var indT = this.listItems.findIndex(function(o){
+				 return o.categoryName === categoryName;
+			})*/
+			// Конвертация
+			if(e.model.item.isComplete){
+				compl = true;//'yes';
+				help[inde].isComplete = true;//'yes';
+				}
+			else{
+				compl = false;//'no';
+				help[inde].isComplete = false;//'no';
+				}
+				
+			var db = openCategory.result;
+			var tx = db.transaction("MyObjectStore", "readwrite");
+
+			var store = tx.objectStore("MyObjectStore");
+			
+			var index2 = store.index("categoryName");	
+			
+			var objectStoreRequest = index2.get(categoryName);
+						
+			
+			  objectStoreRequest.onsuccess = function(event) {
+				console.log("---------------------------------------");
+				console.log("toogle: "+ categoryName + " complete "+ compl);
+				var data = objectStoreRequest.result;
+				data.isComplete = compl;
+				
+				var updateRequest = store.put(data);
+				updateRequest.onsuccess = function() {
+					console.log("update");
+				  };
+
+				
+			  };
+			  
+			  //help.splice(0, help.length);
+			  
+			  this.updateRecords();
+			
+		},
+
+		editRecord: function() {
+			// Получение имени задачи
+			var categoryName = this.editCategoryName;//e.model.item.categoryName;
+			var latestCategoryName = this.latestCategoryName;
+			console.log("category name: "+categoryName);
+			
+			var inde = help.findIndex(function(o){
+				 return o.categoryName === latestCategoryName;
+			})
+			//help.splice(index, 1);
+			/*var indT = this.listItems.findIndex(function(o){
+				 return o.categoryName === latestCategoryName;
+			})*/
+			
+			
+			var db = openCategory.result;
+			var tx = db.transaction("MyObjectStore", "readwrite");
+
+			var store = tx.objectStore("MyObjectStore");
+			
+			var index2 = store.index("categoryName");	
+			
+			var objectStoreRequest = index2.get(latestCategoryName);
+						
+			
+			  objectStoreRequest.onsuccess = function(event) {
+				console.log("---------------------------------------");
+				console.log("edit: '"+ latestCategoryName + "' to '"+ categoryName+"'");
+				var data = objectStoreRequest.result;
+				data.categoryName = categoryName;
+				
+				var updateRequest = store.put(data);
+				updateRequest.onsuccess = function() {
+					console.log("edit");
+				  };
+
+				
+			  };
+			  help[inde].categoryName = categoryName;
+			  
+			  // Закрытие диалога
+			 this.$.editRecordDialog.close();
+			  
+			  //help.splice(0, help.length);
+			  
+			  this.updateRecords();
+			  
+			  console.log("edit");
+			
+		},
+		
+		deleteRecord: function(e) {
+			var categoryName = this.latestCategoryName;
+			//localStorage.removeItem(taskName);
+					
+			
+			//категории
+			var db = openCategory.result;
+			var tx = db.transaction("MyObjectStore", "readwrite");
+			var store = tx.objectStore("MyObjectStore");			
+			var index2 = store.index("categoryName");
+			
+			var key = this.listItems.findIndex(function(o){
+				 return o.categoryName === categoryName;
+			})
+			  
+			var objectStoreRequest = store.delete(this.listItems[key].id);
+			
+			var index = help.findIndex(function(o){
+				 return o.categoryName === categoryName;
+			})
+			help.splice(index, 1);
+			
+			
+			  objectStoreRequest.onsuccess = function(event) {
+				  console.log("---------------------------------------");
+				  console.log("categoryName: "+ categoryName);
+				  console.log("key: "+ key);
+					// report the success of our delete operation
+					console.log("delete");
+				
+			  };
+	
+			this.$.deleteRecordDialog.close();
+			// Обновление списка задач
+			this.updateRecords();
+		},
+		
+		updateRecords: function() {
+		console.log("---------------------------------------");
+			// Очистка массива
+			this.splice('listItems', 0);
+			//help.splice(0, help.length);
+			
+			this.listItems = [];
+			
+			var test = [];
+			
+			
+			var db = openCategory.result;
+			var tx = db.transaction("MyObjectStore", "readwrite");
+			var store = tx.objectStore("MyObjectStore");
+			var index2 = store.index("categoryName");
+			
+			index2.openCursor().onsuccess = function(event) {
+				
+				cursor = event.target.result;
+				if(cursor) {
+				  var category = {
+					id: cursor.value.id,
+					categoryName: cursor.value.categoryName,
+					isComplete: cursor.value.isComplete
+				};
+			
+
+				console.log("cursor: "+cursor.value.id+" "+cursor.value.categoryName+" "+cursor.value.isComplete);
+				
+				test.push(category);
+				//help.push(category);
+				
+				//console.log(ww[ww.length-1]);
+				//tasks.push(category);
+					//this.push('tasks', task);
+				  cursor.continue();
+				} else {
+				  //console.log('Entries all displayed.');
+				  console.log("-----test len: "+test.length);
+						
+				}
+			  };
+			  
+			  help.sort(function(a, b) {
+				return a.id - b.id;
+				});
+			  
+			  this.updateR(test);
+		},
+		
+		updateR: function(test) {
+			//console.log("test len updateR: "+test.length);
+			// Очистка массива
+			this.splice('listItems', 0);
+			
+			for(i = 0; i< help.length;i++){
+				var category = {
+					id: help[i].id,
+					categoryName: help[i].categoryName,
+					isComplete: help[i].isComplete
+				};
+
+				
+				//this.tasks = [];
+				//this.tasks.push(task);
+					this.push('listItems', category);
+					//console.log("!! "+listItems[listItems.length-1].id);
+			
+			}
+
+			
+			
+		},
+
+		clearList: function() {
+			help.splice(0, help.length);
+		},
+		
+    });
+	
+	var ind = 0;
+	
+	var cursor;
+	
+	var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+	// Open (or create) the database
+	var openCategory = indexedDB.open("Data7", 1);
+
+	// Create the schema
+	openCategory.onupgradeneeded = function() {
+		var db = openCategory.result;
+		var store = db.createObjectStore("MyObjectStore", {keyPath: "id"});
+		var index2 = store.createIndex("categoryName", "categoryName");
+	};
+	
+
+	var help = [];
+	
+	openCategory.onsuccess = function() {
+		// Start a new transaction
+		var db = openCategory.result;
+		var tx = db.transaction("MyObjectStore", "readwrite");
+
+		var store = tx.objectStore("MyObjectStore");
+		var index2 = store.index("categoryName");
+			
+		index2.openCursor().onsuccess = function(event) {
+			
+			cursor = event.target.result;
+			if(cursor) {
+			  var category = {
+				id: cursor.value.id,
+				categoryName: cursor.value.categoryName,
+				isComplete: cursor.value.isComplete
+			};
+			
+			if(ind<cursor.value.id) ind = cursor.value.id;
+			//document.getElementById("category-screen").listItems = [];
+			//document.getElementById("category-screen").listItems.push(category);
+			help.push(category);
+			//console.log(help[help.length-1]);
+			console.log("cursor: "+cursor.value.id+" "+cursor.value.categoryName+" "+cursor.value.isComplete);
+				//this.push('listItems', category);
+			  cursor.continue();
+			} else {
+			  //console.log('Entries all displayed.');
+			  //ind = help[help.length-1].id;
+			  //ind = Math.max.apply(Math,help.map(function(o){return o.id;}))
+			  //ind = ind+1;
+			  console.log("ind: "+ind);
+			  //init();
+
+			}
+		};
+			
+			
+
+			
+			
+		
+	  };
+	
+	
+	
+
+	
+  </script>
+</dom-module>
+</body></html>
