@@ -1,16 +1,16 @@
-var http = require('http');
+var http = require('https');
 var Static = require('node-static');
-var WebSocketServer = new require('ws');
+var WebSocketServer = new require('wss');
 
 // подключенные клиенты
 var clients = {};
 
 // WebSocket-сервер на порту 8081
 var webSocketServer = new WebSocketServer.Server({port: 8081});
-webSocketServer.on('connection', function(ws) {
+webSocketServer.on('connection', function(wss) {
 
   var id = Math.random();
-  clients[id] = ws;
+  clients[id] = wss;
   console.log("новое соединение " + id);
 
   ws.on('message', function(message) {
