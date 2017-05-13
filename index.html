@@ -1,32 +1,20 @@
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
 
-    <title>Yo</title>
-    <meta name="description" content="Yo description">
+<!-- форма для отправки сообщений -->
+<form name="publish">
+  <input type="text" name="message"/>
+  <input type="submit" value="Отправить"/>
+</form>
 
-    <!-- See https://goo.gl/OOhYW5 -->
-    <link rel="manifest" href="/manifest.json">
+<!-- здесь будут появляться входящие сообщения -->
+<div id="subscribe"></div>
 
-    <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-	
-	<script>
-	  if ('serviceWorker' in navigator) {
-		/*navigator.serviceWorker
-				 .register('https://cartographer-analog-42055.bitballoon.com/service-worker.js')
-				 .then(function() { console.log('Service Worker Registered'); });*/
-		window.addEventListener('load', function() {
-		  navigator.serviceWorker.register('./service-worker.js')
-		  .then(function() { console.log('Service Worker Registered'); });
-		  //console.log('!!!!!!!!!!!![ServiceWorker] !!!!!!!!!!!!!!!!!!!!!');
-		});
-	  }
-	</script>
+<script src="browser.js"></script>
 
-    <link rel="import" href="/src/show-app/show-app.html">
-  </head>
-  <body>
-    <show-app></show-app>
-  
-
-</body></html>
+</body>
+</html>
