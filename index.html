@@ -2,21 +2,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>Shopping List</title>
-    <meta name="description" content="ShoppingList description">
+    <title>Yo</title>
+    <meta name="description" content="Yo description">
 
     <!-- See https://goo.gl/OOhYW5 -->
     <link rel="manifest" href="/manifest.json">
 
     <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	
-	<!--script>
+	<script>
 	  if ('serviceWorker' in navigator) {
+		/*navigator.serviceWorker
+				 .register('https://cartographer-analog-42055.bitballoon.com/service-worker.js')
+				 .then(function() { console.log('Service Worker Registered'); });*/
 		window.addEventListener('load', function() {
-		  navigator.serviceWorker.register('/service-worker.js');
+		  navigator.serviceWorker.register('https://http://cartographer-analog-42055.bitballoon.com/service-worker.js');
+		  console.log('!!!!!!!!!!!![ServiceWorker] !!!!!!!!!!!!!!!!!!!!!');
 		});
 	  }
-	</script-->
+	</script>
 
     <link rel="import" href="/src/show-app/show-app.html">
   </head>

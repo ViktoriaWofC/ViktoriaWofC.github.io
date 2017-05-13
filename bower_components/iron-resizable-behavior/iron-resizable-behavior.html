@@ -6,7 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><html><head><link rel="import" href="../polymer/polymer.html">
+--><link rel="import" href="../polymer/polymer.html">
 
 <script>
   /**
@@ -38,7 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       /**
-       * True if this element is currently notifying its descendant elements of
+       * True if this element is currently notifying its descedant elements of
        * resize.
        */
       _notifyingDescendant: {
@@ -137,7 +137,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return;
       }
 
-      // NOTE(cdata): In ShadowDOM, event retargeting makes echoing of the
+      // NOTE(cdata): In ShadowDOM, event retargetting makes echoing of the
       // otherwise non-bubbling event "just work." We do it manually here for
       // the case where Polymer is not using shadow roots for whatever reason:
       if (!Polymer.Settings.useShadow) {
@@ -191,4 +191,3 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   };
 </script>
 
-</head><body></body></html>

@@ -6,7 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><html><head><link rel="import" href="../polymer/polymer.html">
+--><link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="paper-input-behavior.html">
@@ -65,7 +65,7 @@ style this element.
 @demo demo/index.html
 -->
 
-</head><body><dom-module id="paper-input">
+<dom-module id="paper-input">
   <template>
     <style>
       :host {
@@ -80,15 +80,6 @@ style this element.
         display: none !important;
       }
 
-      input::-webkit-outer-spin-button,                                                                                                     
-      input::-webkit-inner-spin-button {                                                                                                    
-        @apply(--paper-input-container-input-webkit-spinner);                                                                                                                                                                                      
-      }
-      
-      input::-webkit-clear-button {
-        @apply(--paper-input-container-input-webkit-clear);  
-      }
-
       input::-webkit-input-placeholder {
         color: var(--paper-input-container-color, --secondary-text-color);
       }
@@ -99,10 +90,6 @@ style this element.
 
       input::-moz-placeholder {
         color: var(--paper-input-container-color, --secondary-text-color);
-      }
-
-      input::-ms-clear {
-        @apply(--paper-input-container-ms-clear);
       }
 
       input:-ms-input-placeholder {
@@ -146,4 +133,3 @@ style this element.
     ]
   });
 </script>
-</body></html>

@@ -6,7 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><html><head><link rel="import" href="../polymer/polymer.html">
+--><link rel="import" href="../polymer/polymer.html">
 
 <!--
 The `<iron-flex-layout>` component provides simple ways to use
@@ -18,27 +18,14 @@ The layout class stylesheet provides a simple set of class-based flexbox rules, 
 let you specify layout properties directly in markup. You must include this file
 in every element that needs to use them.
 
-    Sample use:
+  Sample use:
 
-    ```
-    <custom-element-demo>
-      <template>
-        <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-        <next-code-block></next-code-block>
-      </template>
-    </custom-element-demo>
-    ```
+      <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+      <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
 
-    ```html
-    <link rel="import" href="iron-flex-layout-classes.html">
-    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
-    <style>
-      .test { width: 100px; }
-    </style>
-    <div class="layout horizontal center-center">
-      <div class="test">horizontal layout center alignment</div>
-    </div>
-    ```
+      <div class="layout horizontal layout-start">
+        <div>cross axis start alignment</div>
+      </div>
 
 2. [Custom CSS mixins](https://github.com/PolymerElements/iron-flex-layout/blob/master/iron-flex-layout.html).
 The mixin stylesheet includes custom CSS mixins that can be applied inside a CSS rule using the `@apply` function.
@@ -116,7 +103,7 @@ A complete [guide](https://elements.polymer-project.org/guides/flex-layout) to `
       -webkit-flex-wrap: wrap;
       flex-wrap: wrap;
     };
-
+    
     --layout-no-wrap: {
       -ms-flex-wrap: nowrap;
       -webkit-flex-wrap: nowrap;
@@ -414,4 +401,3 @@ A complete [guide](https://elements.polymer-project.org/guides/flex-layout) to `
   }
 
 </style>
-</head><body></body></html>
