@@ -1,0 +1,287 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+
+<dom-module id="im-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+	  
+	  #main { 
+		padding: 15px;
+		padding-right: 20px; 
+		padding-bottom: 30px;		 
+	  }
+	  
+	  #header { 
+		width: 100%; 
+		padding: 20px;
+		background-color:#A1B92E;		
+	  }
+	  
+	  #bottom { 
+		width: 100%; 
+		padding: 15px;
+		background-color:#b37f37;	
+		text-align: center;
+	  }
+	  
+	  .input1 { 
+		width: 200px; 
+
+	   }
+	   
+	   .result { 
+		width: 100%; 
+		padding: 10px;
+		border: 1px solid black;
+		border-radius: 10px;
+	   }
+	  
+    </style>
+	
+	
+    <!--h2>Hello [[prop1]]!</h2>
+	<h2>Hello [[gamma]]!</h2>
+	
+	<paper-button on-click='startChat'>Start chat</paper-button>
+	<br>
+	<paper-input label="this" auto-validate pattern="-?[0-9]+.?[0-9]* " error-message="letters only!"></paper-input>
+	<br-->
+	
+	<div id="header">
+	kghfkghfkgfkgfkhgf
+	</div>
+	
+	<br>
+	
+	<div id="main">
+	
+		<!--paper-input label="server" class="input1" value="{{ server }}"></paper-input-->
+		
+		<label id="label1">Выберите формулу:</label>
+		<br>
+		<paper-radio-group id="selectF" selected="1" aria-labelledby="label1">
+		  <paper-radio-button on-click="selectFormula" name="1">Ортогональная функция Якоби</paper-radio-button>
+		  <br><paper-radio-button on-click="selectFormula" name="2">Производная ортогональной функции Якоби</paper-radio-button>
+		  <br><paper-radio-button on-click="selectFormula" name="3">Неопределенный интеграл от ортогональной функции Якоби</paper-radio-button>
+		</paper-radio-group>
+
+
+	<br>
+	
+		
+		<paper-input label="betta (β)" class="input1" value="{{ betta }}">	</paper-input>
+		<font color="red">[[errorBetta]]</font>
+		<paper-input label="gamma (γ)" class="input1" value="{{ gamma }}"></paper-input>
+		<font color="red">[[errorGamma]]</font>
+		<paper-input label="k (порядок функции)" class="input1" value="{{ k }}"></paper-input>
+		<font color="red">[[errorK]]</font>
+		<br>
+		<font color="red">[[errorMessage]]</font>
+		<br>
+		<paper-button raised="" on-click="startProcces">Начать рассчет</paper-button>
+		
+		<br>
+		<br>
+		
+		<div class="result">
+			<label>Результаты вычислений:</label>
+			<br>
+			[[results]]
+		</div>
+		
+		
+	</div>
+	
+	<div id="bottom">
+	<!--font color="#820000"-->
+	©Самарский Университет 2017г.<br>
+	Безруков Д., Назарова Е., Пономарев Е., Сахибназарова В.
+	<!--/font-->
+		 	
+	</div>
+	
+  </template>
+
+  <script>
+  
+  
+    /**
+     * @customElement
+     * @polymer
+     */
+    class ImApp extends Polymer.Element {
+      static get is() { return 'im-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'im-app'
+          },
+		  
+		  server: {
+            type: String,
+            value: '127.0.0.1:443'
+          },
+		  
+		  betta: {
+            type: String,
+            value: '1'
+          },
+		  
+		  gamma: {
+            type: String,
+            value: '0.1'
+          },
+		  
+		  k: {
+            type: String,
+            value: '3'
+          },
+		  
+		  numberOfFormula: {
+            type: String,
+            value: 'f1'
+          },
+		  
+		  results: {
+            type: String,
+            value: '---'
+          },
+		  
+		  errorMessage: {
+            type: String,
+            value: ''
+          },
+		  
+		  errorBetta: {
+            type: String,
+            value: ''
+          },
+		  
+		  errorGamma: {
+            type: String,
+            value: ''
+          },
+		  
+		  errorK: {
+            type: String,
+            value: ''
+          },		  
+		  
+        };
+      }
+	  
+	  startChat() {
+		  this.prop1 = "############"
+	  }
+	  
+	  startProcces() {
+		  
+		  if (validate(this.k)&validate(this.gamma)&validate(this.betta)){
+			  this.errorMessage = '';
+			  this.errorBetta = '';
+			  this.errorGamma = '';
+			  this.errorK = '';
+			  
+			  this.numberOfFormula = this.$.selectF.selectedItem.name;
+			  
+			  var adr = "ws://"+this.server;
+			  console.log("try connect to :"+adr);			  
+			  connect(adr);
+			  
+		  }
+		  else {
+			if (!validate(this.k)) this.errorK = 'Коэффициент k - должен быть числом!';
+			else this.errorK = '';
+			if(!validate(this.gamma)) this.errorGamma = 'Коэффициент gamma - должен быть числом!';
+			else this.errorGamma = '';
+			if(!validate(this.betta)) this.errorBetta = 'Коэффициент betta - должен быть числом!';
+			else this.errorBetta = '';
+		  }
+	  
+		
+		}
+		
+		/*selectFormula(){
+			this.numberOfFormula = this.$.selectF.selectedItem.name;
+		}*/
+    }
+
+    window.customElements.define(ImApp.is, ImApp);
+	
+	function selectFormula() {
+		  this.numberOfFormula = val;
+	  }
+	
+	function validate(val) {
+	  if (!isNaN(parseFloat(val)) && isFinite(val))
+				  return true;
+			else
+			  return false;
+	}
+	
+	var bool = false;
+	
+	
+	//"wss://127.0.0.1:443";
+	var socket;// = new WebSocket(adr);
+	
+	//connect();
+	
+	function connect(adr){
+	
+		if (bool) {
+			  return;
+			}
+	
+		socket = new WebSocket(adr);
+	
+		socket.onopen = function() {
+		//alert("Соединение установлено.");
+		console.log("---open connect---");
+		bool = true;
+		
+		console.log("-----------------send---------------");
+			var s = k+"";//this.k+"";
+			socket.send("send%"+last);
+	  };
+
+	  socket.onclose = function(event) {
+		if (event.wasClean) {
+		  //alert('Соединение закрыто чисто');
+		} else {
+		  //alert('Обрыв соединения'); // например, "убит" процесс сервера
+		  console.log("---close connect---");
+		  
+		}
+		bool = false;
+		//connect(adr);
+		//alert('Код: ' + event.code + ' причина: ' + event.reason);
+	  };
+
+	  socket.onmessage = function(event) {
+		var message = JSON.parse(event.data);
+		
+		console.log("mess: "+ message.date+ " "+ message.nickname+ " "+ message.key);
+		//helps.push(message);
+		updateList(message);
+	  };
+
+	  socket.onerror = function(error) {
+		//document.getElementById("errServer").open();
+	   alert("Ошибка " + error.message);
+	   console.log("---error connect---");	   
+	   bool = false;
+	   //connect();
+	  };
+	
+	}
+	
+  </script>
+</dom-module>
