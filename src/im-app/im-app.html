@@ -54,7 +54,9 @@
 	<br-->
 	
 	<div id="header">
-	kghfkghfkgfkgfkhgf
+	<font color="white" size="5" face="Arial"><b>
+	Вычисление ортогональной функции Якоби k-го порядка</b>
+	</font>
 	</div>
 	
 	<br>
@@ -66,9 +68,9 @@
 		<label id="label1">Выберите формулу:</label>
 		<br>
 		<paper-radio-group id="selectF" selected="1" aria-labelledby="label1">
-		  <paper-radio-button on-click="selectFormula" name="1">Ортогональная функция Якоби</paper-radio-button>
-		  <br><paper-radio-button on-click="selectFormula" name="2">Производная ортогональной функции Якоби</paper-radio-button>
-		  <br><paper-radio-button on-click="selectFormula" name="3">Неопределенный интеграл от ортогональной функции Якоби</paper-radio-button>
+		  <paper-radio-button name="1">Ортогональная функция Якоби</paper-radio-button>
+		  <br><paper-radio-button name="2">Производная ортогональной функции Якоби</paper-radio-button>
+		  <br><paper-radio-button name="3">Неопределенный интеграл от ортогональной функции Якоби</paper-radio-button>
 		</paper-radio-group>
 
 
@@ -99,10 +101,10 @@
 	</div>
 	
 	<div id="bottom">
-	<!--font color="#820000"-->
+	<font color="white" face="Arial">
 	©Самарский Университет 2017г.<br>
 	Безруков Д., Назарова Е., Пономарев Е., Сахибназарова В.
-	<!--/font-->
+	</font>
 		 	
 	</div>
 	
@@ -195,6 +197,24 @@
 			  console.log("try connect to :"+adr);			  
 			  connect(adr);
 			  
+			  var sendMes = {};
+			sendMes.betta = this.betta;
+			sendMes.gamma= this.gamma;
+			sendMes.k = this.k;
+			sendMes.numberOfFormula = this.numberOfFormula;
+			
+
+			if(bool){
+				socket.send(JSON.stringify(sendMes));
+				console.log("send");
+			}
+			else{
+				console.log(JSON.stringify(sendMes));	
+				//alert("Ошибка подключения к серверу");	
+				//socket.send(JSON.stringify(sendMes));
+				//socet = new WebSocket(adr);				
+			} 
+			  
 		  }
 		  else {
 			if (!validate(this.k)) this.errorK = 'Коэффициент k - должен быть числом!';
@@ -215,9 +235,9 @@
 
     window.customElements.define(ImApp.is, ImApp);
 	
-	function selectFormula() {
+	/*function selectFormula() {
 		  this.numberOfFormula = val;
-	  }
+	}*/
 	
 	function validate(val) {
 	  if (!isNaN(parseFloat(val)) && isFinite(val))
@@ -275,7 +295,8 @@
 
 	  socket.onerror = function(error) {
 		//document.getElementById("errServer").open();
-	   alert("Ошибка " + error.message);
+	   //alert("Ошибка " + error.message);
+	   alert("Ошибка подключения к серверу "+ adr);	
 	   console.log("---error connect---");	   
 	   bool = false;
 	   //connect();
